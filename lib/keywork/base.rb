@@ -6,7 +6,8 @@ require File.join(File.dirname(__FILE__), 'constants')
 
 module Keywork
   class Base
-    def nothing
+    def initialize(options = {})
+      @options = options
     end
   end
 end
