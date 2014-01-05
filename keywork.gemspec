@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Keywork::VERSION
   spec.authors       = ["nickm4062"]
   spec.email         = ["nick@nickmontgomery.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Replacement for Carbon compatible with graphite protocol}
+  spec.summary       = %q{Replacement for Carbon}
   spec.homepage      = ""
   spec.license       = "MIT"
 

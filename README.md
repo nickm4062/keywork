@@ -1,5 +1,5 @@
 # Keywork
-
+[![Gem Version](https://badge.fury.io/rb/keywork.png)](http://badge.fury.io/)
 TODO: Write a gem description
 
 ## Installation
