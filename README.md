@@ -3,6 +3,7 @@
 [![Dependency Status](https://gemnasium.com/nickm4062/keywork.png)](https://gemnasium.com/nickm4062/keywork)
 [![Code Climate](https://codeclimate.com/github/nickm4062/keywork.png)](https://codeclimate.com/github/nickm4062/keywork)
 [![Build Status](https://travis-ci.org/nickm4062/keywork.png?branch=master)](https://travis-ci.org/nickm4062/keywork)
+[![Coverage Status](https://coveralls.io/repos/nickm4062/keywork/badge.png)](https://coveralls.io/r/nickm4062/keywork)
 
 TODO: Write a gem description
 
