@@ -3,4 +3,16 @@ Documentation:
 Encoding:
   Enabled: false
 MethodLength:
-  Max: 15
+  Max: 50
+LineLength:
+  Max: 100
+HashSyntax:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
+CyclomaticComplexity:
+  Max: 20
+RedundantBegin:
+  Enabled: false
+HandleExceptions:
+  Enabled: false
