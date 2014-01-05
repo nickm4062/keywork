@@ -1,4 +1,5 @@
 # coding: utf-8
+# require File.join(File.dirname(__FILE__), 'lib', 'keywork', 'constants')
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'keywork/constants'
@@ -7,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'keywork'
   spec.version       = Keywork::VERSION
   spec.authors       = ['nickm4062']
+  spec.platform    = Gem::Platform::RUBY
   spec.email         = ['nick@nickmontgomery.com']
   spec.description   = %q{Replacement for Carbon compatible with graphite protocol}
   spec.summary       = %q{Replacement for Carbon}

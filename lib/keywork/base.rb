@@ -13,9 +13,9 @@ require File.join(File.dirname(__FILE__), 'constants')
 require File.join(File.dirname(__FILE__), 'utilities')
 require File.join(File.dirname(__FILE__), 'cli')
 require File.join(File.dirname(__FILE__), 'logstream')
-require File.join(File.dirname(__FILE__), 'settings')
+# require File.join(File.dirname(__FILE__), 'settings')
 # require File.join(File.dirname(__FILE__), 'extensions')
-require File.join(File.dirname(__FILE__), 'process')
+# require File.join(File.dirname(__FILE__), 'process')
 # require File.join(File.dirname(__FILE__), 'io')
 # require File.join(File.dirname(__FILE__), 'rabbitmq')
 
@@ -29,8 +29,12 @@ module Keywork
 
     def logger
       logger = Logger.get
-      logger.level = @options[:log_level] if @options[:log_level]
-      logger.reopen(@options[:log_file]) if @options[:log_file]
+      if @options[:log_level]
+        logger.level = @options[:log_level]
+      end
+      if @options[:log_file]
+        logger.reopen(@options[:log_file])
+      end
       logger.setup_traps
       logger
     end
@@ -47,6 +51,12 @@ module Keywork
       settings.validate
       settings.set_env
       settings
+    end
+    
+    def setup_process
+      process = Process.new
+      process.daemonize if @options[:daemonize]
+      process.write_pid(@options[:pid_file]) if @options[:pid_file]
     end
   end
 end

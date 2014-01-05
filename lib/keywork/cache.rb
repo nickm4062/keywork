@@ -16,7 +16,7 @@ module Keywork
       @logger = base.logger
       @settings = base.settings
       # @extensions = base.extensions
-      # base.setup_process
+      base.setup_process
       # @extensions.load_settings(@settings.to_hash)
       @timers = []
       @checks_in_progress = []
@@ -24,23 +24,34 @@ module Keywork
     end
 
     def start
-      # do start stuff
+      # setup_redis
+      # setup_rabbitmq
+      # Thin::Logging.silent = true
+      # bind = $settings[:api][:bind] || '0.0.0.0'
+      # Thin::Server.start(bind, $settings[:api][:port], self)
+    end
+
+    def stop
+      # $logger.warn('stopping')
+      # $rabbitmq.close
+      # $redis.close
+      # $logger.warn('stopping reactor')
+      # EM::stop_event_loop
     end
 
     def trap_signals
-      @signals = []
+      $signals = Array.new
       STOP_SIGNALS.each do |signal|
         Signal.trap(signal) do
-          @signals << signal
+          $signals << signal
         end
       end
       EM::PeriodicTimer.new(1) do
-        signal = @signals.shift
+        signal = $signals.shift
         if STOP_SIGNALS.include?(signal)
-          @logger.warn(
-          'received signal',
-          :signal => signal
-          )
+          $logger.warn('received signal', {
+            :signal => signal
+          })
           stop
         end
       end

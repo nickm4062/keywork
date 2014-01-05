@@ -1,25 +1,31 @@
 module Keywork
   module Utilities
     def testing?
-      File.basename($PROGRAM_NAME) == 'rspec'
+      File.basename($0) == 'rspec'
     end
 
-    def retry_until_true(wait = 0.5, &block)
+    def retry_until_true(wait=0.5, &block)
       EM::Timer.new(wait) do
-        retry_until_true(wait, &block) unless block.call
+        unless block.call
+          retry_until_true(wait, &block)
+        end
       end
     end
 
     def indifferent_hash
       Hash.new do |hash, key|
-        hash[key.to_sym] if key.is_a?(String)
+        if key.is_a?(String)
+          hash[key.to_sym]
+        end
       end
     end
 
     def with_indifferent_access(hash)
       hash = indifferent_hash.merge(hash)
       hash.each do |key, value|
-        hash[key] = with_indifferent_access(value) if value.is_a?(Hash)
+        if value.is_a?(Hash)
+          hash[key] = with_indifferent_access(value)
+        end
       end
     end
 
@@ -27,20 +33,20 @@ module Keywork
       merged = hash_one.dup
       hash_two.each do |key, value|
         merged[key] = case
-                      when hash_one[key].is_a?(Hash) && value.is_a?(Hash)
-                        deep_merge(hash_one[key], value)
-                      when hash_one[key].is_a?(Array) && value.is_a?(Array)
-                        hash_one[key].concat(value).uniq
-                      else
-                        value
-                      end
+        when hash_one[key].is_a?(Hash) && value.is_a?(Hash)
+          deep_merge(hash_one[key], value)
+        when hash_one[key].is_a?(Array) && value.is_a?(Array)
+          hash_one[key].concat(value).uniq
+        else
+          value
+        end
       end
       merged
     end
 
     def deep_diff(hash_one, hash_two)
       keys = hash_one.keys.concat(hash_two.keys).uniq
-      keys.reduce(Hash.new) do |diff, key|
+      keys.inject(Hash.new) do |diff, key|
         unless hash_one[key] == hash_two[key]
           if hash_one[key].is_a?(Hash) && hash_two[key].is_a?(Hash)
             diff[key] = deep_diff(hash_one[key], hash_two[key])
@@ -52,7 +58,7 @@ module Keywork
       end
     end
 
-    def redact_sensitive(hash, keys = nil)
+    def redact_sensitive(hash, keys=nil)
       keys ||= %w[
         password passwd pass
         api_key api_token
@@ -62,7 +68,7 @@ module Keywork
       hash = hash.dup
       hash.each do |key, value|
         if keys.include?(key.to_s)
-          hash[key] = 'REDACTED'
+          hash[key] = "REDACTED"
         elsif value.is_a?(Hash)
           hash[key] = redact_sensitive(value, keys)
         elsif value.is_a?(Array)
