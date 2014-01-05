@@ -1,5 +1,5 @@
-require 'keywork/version'
+require 'keywork/constants'
 
 module Keywork
-  # Your code goes here...
+# A carbon replacement that aims to be more scalable and malleable.
 end
