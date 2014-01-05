@@ -1,5 +1,8 @@
 # Keywork
 [![Gem Version](https://badge.fury.io/rb/keywork.png)](http://badge.fury.io/)
+[![Dependency Status](https://gemnasium.com/nickm4062/keywork.png)](https://gemnasium.com/nickm4062/keywork)
+[![Code Climate](https://codeclimate.com/github/nickm4062/keywork.png)](https://codeclimate.com/github/nickm4062/keywork)
+
 TODO: Write a gem description
 
 ## Installation
