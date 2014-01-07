@@ -2,22 +2,50 @@ require 'optparse'
 
 module Keywork
   class CLI
-    def return_output(info)
-      puts info
-      exit
-    end
-    def self.read(args = ARGV)
+    def self.read(arguments = ARGV)
       options = {}
       optparse = OptionParser.new do |opts|
         opts.on('-h', '--help', 'Display this message') do
-          return_output(opts)
+          puts opts
+          exit
         end
         opts.on('-V', '--version', 'Display version') do
-          return_output(VERSION)
+          puts VERSION
+          exit
         end
-        optparse.parse!(args)
-        options
+        opts.on('-c', '--config FILE', 'Keywork JSON config FILE') do |file|
+          options[:config_file] = file
+        end
+        opts.on('-d', '--config_dir DIR[,DIR]',
+                'DIR or comma-delimited DIR list for Keywork JSON config files') do |dir|
+          options[:config_dirs] = dir.split(',')
+        end
+        opts.on('-e', '--extension_dir DIR', 'DIR for Keywork extensions') do |dir|
+          options[:extension_dir] = dir
+        end
+        opts.on('-l', '--log FILE', 'Log to a given FILE. Default: STDOUT') do |file|
+          options[:log_file] = file
+        end
+        opts.on('-L', '--log_level LEVEL', 'Log severity LEVEL') do |level|
+          log_level = level.to_s.downcase.to_sym
+          unless LOG_LEVELS.include?(log_level)
+            puts 'Unknown log level: ' + level.to_s
+            exit 1
+          end
+          options[:log_level] = log_level
+        end
+        opts.on('-v', '--verbose', 'Enable verbose logging') do
+          options[:log_level] = :debug
+        end
+        opts.on('-b', '--background', 'Fork into the background') do
+          options[:daemonize] = true
+        end
+        opts.on('-p', '--pid_file FILE', 'Write the PID to a given FILE') do |file|
+          options[:pid_file] = file
+        end
       end
+      optparse.parse!(arguments)
+      options
     end
   end
 end
